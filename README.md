@@ -1,5 +1,8 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+This is my Flash.AI app where I allow people to generate flashcards with AI. Its still a work in progress as I want to add much more features such as saving select flashcards, creating more specific flashcards and more.
+
+
 ## Getting Started
 
 First, run the development server:
