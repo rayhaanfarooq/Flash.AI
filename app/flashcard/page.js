@@ -29,7 +29,6 @@ export default function Flashcard(){
   const { isLoaded, isSignedIn, user } = useUser();
   const [flashcards, setFlashcards] = useState([]);
   const [flipped, setFlipped] = useState({});
-
   const searchParms = useSearchParams();
   const search = searchParms.get('id')
 
