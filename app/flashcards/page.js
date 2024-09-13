@@ -9,7 +9,6 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { BookOpen, Clock, ArrowRight } from "lucide-react"
 
-
 export default function Flashcards(){
     const { isLoaded, isSignedIn, user}  = useUser();
     const [flashcards, setFlashcards] = useState([]);
