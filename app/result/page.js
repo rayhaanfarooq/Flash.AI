@@ -1,168 +1,77 @@
 'use client'
-
-
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import getStripe from '@/utils/get-stripe'
 import { useSearchParams } from 'next/navigation'
-import { CircularProgress, Container, Typography, Box} from '@mui/material'
-
 
 const ResultPage = () => {
     const router = useRouter()
     const searchParams = useSearchParams()
     const session_id = searchParams.get('session_id')
 
-    const [loading, setLoading ] = useState(true)
-    const [ session, setSession ] = useState(null)  
-    const [ error, setError ] = useState(null)
-
+    const [loading, setLoading] = useState(true)
+    const [session, setSession] = useState(null)
+    const [error, setError] = useState(null)
 
     useEffect(() => {
-        const fetchSession = async() => {
-            if(!session_id) return
+        const fetchSession = async () => {
+            if (!session_id) return
 
-            else{
-                try {
-                    const res = await fetch(`/api/checkout_session?session_id=${session_id}`)
-                    const sessionData = await res.json()
-                    if(res.ok){
-                        setSession(sessionData)
-                       
-                    }
+            try {
+                const res = await fetch(`/api/checkout_session?session_id=${session_id}`)
+                const sessionData = await res.json()
 
-                    else{
-                        setError(sessionData.error)
-                    }
-                    
-
+                if (res.ok) {
+                    setSession(sessionData)
+                } else {
+                    setError(sessionData.error)
                 }
-
-                catch(error) {
-                    setError(error)
-                }
-
-                finally{
-                    setLoading(false)
-                }
+            } catch (error) {
+                setError(error.message)
+            } finally {
+                setLoading(false)
             }
-
-
-            
-           
         }
 
         fetchSession()
     }, [session_id])
 
-
-    if(loading) {
-        return(
-            <Container
-
-            maxWidth="100vw"
-            sx={{
-                textAlign: "center",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100vh",
-            }}
-            
-            >
-
-                <CircularProgress />
-                <Typography variant="h4" sx={{ ml: 2 }}> Loading...</Typography>
-                
-            </Container>
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
+                <h2 className="ml-4 text-2xl">Loading...</h2>
+            </div>
         )
     }
 
-    if(error) {
-        return(
-
-            <Container
-
-            maxWidth="100vw"
-            sx={{
-                textAlign: "center",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100vh",
-            }}
-            
-            >
-
-        
-                <Typography variant="h4" sx={{ ml: 2 }}> { error } </Typography>
-                
-            </Container>
+    if (error) {
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <h2 className="text-2xl text-red-500">{error}</h2>
+            </div>
         )
     }
 
     return (
-
-        <Container
-
-        maxWidth="100vw"
-        sx={{
-            textAlign: "center",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100vh",
-        }}
-        
-        >
-
-            {
-
-            session.payment_status === 'paid' ? (
-
+        <div className="flex flex-col justify-center items-center h-screen">
+            {session.payment_status === 'paid' ? (
                 <>
-            
-                <Typography variant="h4" sx={{ ml: 2 }}> Payment Successful </Typography>
-                <Box sx={{mt:22}}>
-                    <Typography variant="h6"> Session ID: {session_id} </Typography>
-                    <Typography variant="body1"> You will recieve an email shortly </Typography>
-
-                </Box>
-
+                    <h2 className="text-3xl font-bold">Payment Successful</h2>
+                    <div className="mt-8">
+                        <p className="text-lg">Session ID: {session_id}</p>
+                        <p className="text-lg">You will receive an email shortly</p>
+                    </div>
                 </>
-
-
-            ) :
-            (
-
-
-            <>
-            
-            <Typography variant="h4" sx={{ ml: 2 }}> Payment Failed</Typography>
-            <Box sx={{mt:22}}>
-                <Typography variant="body1"> Your payment was not successful. Please try again. </Typography>
-            </Box>
-
-            </>
-
-            )
-
-        }
-    
-            
-        </Container>
-
-
+            ) : (
+                <>
+                    <h2 className="text-3xl font-bold text-red-500">Payment Failed</h2>
+                    <div className="mt-8">
+                        <p className="text-lg">Your payment was not successful. Please try again.</p>
+                    </div>
+                </>
+            )}
+        </div>
     )
-
-  
-
-
-
-
-
-
-
 }
 
 export default ResultPage

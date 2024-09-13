@@ -93,7 +93,7 @@ export default function Home() {
           </div>
         </section>
         
-        <section className="w-full py-24 bg-white/50 backdrop-blur-sm">
+        {/* <section className="w-full py-24 bg-white/50 backdrop-blur-sm">
           <div className="container mx-auto px-4 md:px-6">
             <h2 className="text-4xl font-bold tracking-tighter sm:text-5xl text-center mb-16 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">What Our Users Say</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -110,16 +110,18 @@ export default function Home() {
             </div>
           </div>
         </section>
-        
+         */}
         <section className="w-full py-24 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
           <div className="container mx-auto px-4 md:px-6 text-center">
             <h2 className="text-4xl font-bold tracking-tighter sm:text-5xl mb-8">Ready to Supercharge Your Learning?</h2>
             <p className="mx-auto max-w-[600px] text-xl mb-12">
               Join thousands of students who are already benefiting from AI-powered flashcards.
             </p>
+            <Link href="/sign-up">
             <Button className="bg-white text-blue-600 hover:bg-blue-50 text-lg px-8 py-3 rounded-full transition-all hover:shadow-lg animate-pulse">
               Get Started Now
             </Button>
+            </Link>
           </div>
         </section>
       </main>

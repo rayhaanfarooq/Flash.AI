@@ -75,6 +75,8 @@ export default function Generate() {
     router.push("/flashcards");
   };
 
+  if(!isSignedIn) return <p>Sign in to view your flashcards</p>
+
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-blue-100 via-green-100 to-purple-100">
       {/* Sidebar */}
