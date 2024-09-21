@@ -178,65 +178,79 @@ export default function Generate() {
             </Button>
           </div>
 
+
           {flashcards.length > 0 && (
-            <div className="animate-fade-in">
-              <h2 className="text-3xl font-semibold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-green-600">
-                Flashcards Preview
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {flashcards.map((flashcard, index) => (
-                  <div key={index} className="flip-card h-64 cursor-pointer perspective" onClick={() => handleCardClick(index)}>
-                    <div className={`flip-card-inner ${flipped[index] ? 'is-flipped' : ''} transition-transform duration-500 transform-style-3d`}>
-                      <div className="flip-card-front bg-white shadow-lg rounded-2xl flex items-center justify-center p-6 absolute w-full h-full backface-hidden">
-                        <p className="text-xl font-medium text-blue-800">{flashcard.front}</p>
+        <div className="animate-fade-in py-16 bg-gradient-to-br from-blue-50 to-green-50">
+          <div className="container mx-auto px-4">
+            <h2 className="text-4xl font-bold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-green-600">
+              Flashcards Preview
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {flashcards.map((flashcard, index) => (
+                <div 
+                  key={index} 
+                  className="flip-card h-80 w-full cursor-pointer perspective group"
+                  onClick={() => handleCardClick(index)}
+                >
+                  <div className={`flip-card-inner relative w-full h-full transition-transform duration-700 transform-style-3d ${flipped[index] ? 'rotate-y-180' : ''}`}>
+                    <div className="flip-card-front absolute w-full h-full backface-hidden rounded-2xl shadow-lg overflow-hidden group-hover:shadow-2xl transition-shadow duration-300">
+                      <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-green-400 opacity-75"></div>
+                      <div className="absolute inset-0 flex items-center justify-center p-6">
+                        <p className="text-2xl font-semibold text-white text-center">{flashcard.front}</p>
                       </div>
-                      <div className="flip-card-back bg-gradient-to-br from-blue-500 to-green-500 shadow-lg rounded-2xl flex items-center justify-center p-6 absolute w-full h-full backface-hidden transform rotate-y-180">
-                        <p className="text-xl font-medium text-white">{flashcard.back}</p>
+                    </div>
+                    <div className="flip-card-back absolute w-full h-full backface-hidden rounded-2xl shadow-lg overflow-hidden rotate-y-180 group-hover:shadow-2xl transition-shadow duration-300">
+                      <div className="absolute inset-0 bg-gradient-to-br from-green-400 to-blue-400 opacity-75"></div>
+                      <div className="absolute inset-0 flex items-center justify-center p-6">
+                        <p className="text-2xl font-semibold text-white text-center">{flashcard.back}</p>
                       </div>
                     </div>
                   </div>
-                ))}
-              </div>
-              <div className="mt-12 text-center">
-                <Button
-                  onClick={handleOpen}
-                  className="bg-gradient-to-r from-green-500 to-blue-500 text-white py-3 px-8 rounded-xl hover:from-green-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105"
-                >
-                  Save Flashcards
-                </Button>
-              </div>
-            </div>
-          )}
-
-          {open && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 animate-fade-in">
-              <div className="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl">
-                <h2 className="text-3xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-green-600">Save Flashcards</h2>
-                <p className="mb-4 text-blue-800">Enter a name for your flashcards</p>
-                <Input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full p-3 border border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-6"
-                  placeholder="Collection Name"
-                />
-                <div className="flex justify-end space-x-4">
-                  <Button
-                    onClick={handleClose}
-                    className="px-6 py-2 text-blue-600 hover:bg-blue-50 rounded-xl transition-all duration-300"
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    onClick={handleSaveFlashcards}
-                    className="px-6 py-2 bg-gradient-to-r from-blue-600 to-green-600 text-white rounded-xl hover:from-blue-700 hover:to-green-700 transition-all duration-300"
-                  >
-                    Save
-                  </Button>
                 </div>
-              </div>
+              ))}
             </div>
-          )}
+            <div className="mt-16 text-center">
+              <Button
+                onClick={handleOpen}
+                className="bg-gradient-to-r from-blue-600 to-green-600 text-white text-lg py-3 px-8 rounded-full hover:from-blue-700 hover:to-green-700 transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
+              >
+                Save Flashcards
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+      {open && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 animate-fade-in">
+          <div className="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl">
+            <h2 className="text-3xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-green-600">Save Flashcards</h2>
+            <p className="mb-4 text-gray-600">Enter a name for your flashcards</p>
+            <Input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-6"
+              placeholder="Collection Name"
+            />
+            <div className="flex justify-end space-x-4">
+              <Button
+                onClick={handleClose}
+                className="px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-xl transition-all duration-300"
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={() => handleSaveFlashcards(name)}
+                className="px-6 py-2 bg-gradient-to-r from-blue-600 to-green-600 text-white rounded-xl hover:from-blue-700 hover:to-green-700 transition-all duration-300"
+              >
+                Save
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+          
         </div>
       </div>
 
