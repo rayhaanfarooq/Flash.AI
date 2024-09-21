@@ -18,7 +18,6 @@ const FlashcardApp = () => {
 
   const navItems = [
     { name: 'Home', icon: Home, href: '/' },
-    { name: 'Dashboard', icon: BarChart2, href: '/dashboard' },
     { name: 'Flashcards', icon: BookOpen, href: '/flashcards' },
     { name: 'Generate', icon: Zap, href: '/generate' },
   ];
