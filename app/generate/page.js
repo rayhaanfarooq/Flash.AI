@@ -19,15 +19,63 @@ export default function Generate() {
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
+
+
   const handleSubmit = async () => {
     fetch("/api/generate", {
       method: "POST",
-      body: text,
+      headers: {
+        "Content-Type": "application/json",  // Indicating JSON data
+      },
+      body: JSON.stringify({ text }),  // Converting the text to a JSON string
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
       .then((data) => setFlashcards(data))
-      .catch((err) => console.log("error" + err));
+      .catch((err) => console.log("error: " + err.message)); // More detailed error
   };
+  
+
+
+  // const handleSubmit = async () => {
+  //   try {
+  //     const response = await fetch("/api/generate", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ text }),
+  //     });
+  
+  //     if (!response.ok) {
+  //       const errorData = await response.text();
+  //       throw new Error(`HTTP error! status: ${response.status}, message: ${errorData}`);
+  //     }
+  
+  //     const data = await response.json();
+  //     setFlashcards(data);
+  //   } catch (error) {
+  //     console.error("Fetch error:", error.message);
+  //     // You might want to set an error state here to display to the user
+  //     // setError(error.message);
+  //   }
+  // };
+
+  // const handleSubmit = async () => {
+
+  //   fetch("/api/generate", {
+  //     method: "POST",
+  //     body: text,
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => setFlashcards(data))
+  //     .catch((err) => console.log("error: " + err));
+
+  // };
 
   const handleCardClick = (id) => {
     setFlipped((prev) => ({ ...prev, [id]: !prev[id] }));

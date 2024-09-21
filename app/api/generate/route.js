@@ -45,12 +45,74 @@ Return in the following JSON format:
 }
 `
 
+// export async function POST(req) {
+//   try {
+//     const openai = new OpenAI({
+//       baseURL: "https://openrouter.ai/api/v1",
+//       apiKey: process.env.OPENROUTER_API_KEY,
+//     });
+
+//     if (!process.env.OPENROUTER_API_KEY) {
+//       throw new Error('OPENROUTER_API_KEY is not set in environment variables');
+//     }
+
+//     const data = await req.text();
+//     console.log('Received data:', data);
+    
+//     if (!data) {
+//       return NextResponse.json({ error: 'No data provided' }, { status: 400 });
+//     }
+
+//     const completion = await openai.chat.completions.create({
+//       messages: [
+//         { role: 'system', content: systemPrompt },
+//         { role: 'user', content: data },
+//       ],
+//       model: "meta-llama/llama-3.1-8b-instruct:free",
+//       response_format: { type: 'json_object' },
+//     });
+
+//     console.log('OpenAI API Response:', JSON.stringify(completion, null, 2));
+
+//     if (!completion.choices || completion.choices.length === 0) {
+//       throw new Error('OpenAI API returned an empty response');
+//     }
+
+//     const content = completion.choices[0].message.content;
+//     console.log('Content from OpenAI:', content);
+
+//     if (!content) {
+//       throw new Error('OpenAI API returned an empty content');
+//     }
+
+//     const flashcards = JSON.parse(content);
+
+//     if (!flashcards || !flashcards.flashcards) {
+//       throw new Error('Unexpected response format from OpenAI API');
+//     }
+
+//     return NextResponse.json(flashcards.flashcards);
+//   } catch (error) {
+//     console.error('Error in POST route:', error);
+//     return NextResponse.json(
+//       { error: 'An error occurred while processing your request', details: error.message, stack: error.stack },
+//       { status: 500 }
+//     );
+//   }
+// }
+
+
+
+
 export async function POST(req) {
     const openai = new OpenAI({
       baseURL: "https://openrouter.ai/api/v1",
       apiKey: process.env.OPENROUTER_API_KEY,
     })
     const data = await req.text()
+
+    console.log(data)
+    
 
     const completion = await openai.chat.completions.create({
         messages: [
@@ -60,7 +122,18 @@ export async function POST(req) {
         model: "meta-llama/llama-3.1-8b-instruct:free",
         response_format: { type: 'json_object' },
     })
-    console.log(completion.choices[0].message.content)
+
+    
+    if(!completion.choices){
+        throw new Error('OpenAI API returned undefined')
+    }
+
+    if(completion.choices.length === 0){
+      throw new Error('OpenAI API returned nothing')
+  }
+
+
+    // console.log(completion.choices[0].message.content)
     //Parse the JSON response from the OpenAi API
     const flashcards = JSON.parse(completion.choices[0].message.content)
 
